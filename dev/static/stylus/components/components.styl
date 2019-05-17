@@ -155,10 +155,10 @@
                 }
 
                 &.active {
-                    border: 2px solid #343a40;
-                    // box-shadow: inset 0 0 0px 1px #343a40;
+                    border: 2px solid #586069;
+                    // box-shadow: inset 0 0 0px 1px #586069;
                     position: relative;
-                    color: #343a40;
+                    color: #586069;
                     background: #fff;
 
                     &:before {
@@ -173,7 +173,7 @@
                         border-radius: 4px;
                         -webkit-transform: rotate(-45deg);
                         transform: rotate(-45deg);
-                        border: 2px solid #343a40;
+                        border: 2px solid #586069;
                         border-top: none;
                         border-left: none;
                         border-top-right-radius: 0;
@@ -197,7 +197,7 @@
                 }
 
                 .quantity.totals {
-                    color: #343a40 !important;
+                    color: #586069 !important;
                 }
 
                 .quantity.over {
@@ -243,11 +243,11 @@
         background-repeat: no-repeat;
     }
 
-    .tooltip::after {
+    .tooltip-car::after {
         background: #F2F2F2;
         border-radius: 6px;
         // box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.5);
-        content: attr(data-tooltip); /* Главная часть кода, определяющая содержимое всплывающей подсказки */
+        content: attr(data-tooltip-car); /* Главная часть кода, определяющая содержимое всплывающей подсказки */
         // margin-top: -24px;
         opacity: 0; /* Наш элемент прозрачен... */
         padding: 8px;
@@ -265,7 +265,7 @@
         transition: all 0.4s ease-in-out; /* Добавить плавности по вкусу */
     }
 
-    .tooltip:hover::after {
+    .tooltip-car:hover::after {
         opacity: 1; /* Показываем его */
         visibility: visible;
     }
@@ -326,7 +326,7 @@
             line-height: 12px;
             font-size: 10px;
             text-align: center;
-            color: #343a40;
+            color: #586069;
         }
 
         &.-disabled- {
@@ -335,7 +335,7 @@
         }
 
         &.-current- {
-            color: #343a40;
+            color: #586069;
             font-weight: bold;
         }
 
@@ -345,15 +345,15 @@
         }
 
         &.-selected- {
-            color: #343a40;
+            color: #586069;
             font-weight: normal;
             background: rgba(0, 140, 149, 0.05);
-            // border: 1px solid #343a40;
-            box-shadow: inset 0px 0px 0px 1px #343a40;
+            // border: 1px solid #586069;
+            box-shadow: inset 0px 0px 0px 1px #586069;
 
             &.-focus- {
                 font-weight: normal;
-                box-shadow: inset 0px 0px 0px 1px #343a40;
+                box-shadow: inset 0px 0px 0px 1px #586069;
             }
         }
 
@@ -382,10 +382,10 @@
     }
 }
 
-.wide-box-new {
-    padding: 10px;
+.wide-box {
+    padding: 20px 0;
 }
 
-.wide-box-new > div {
+.wide-box > div {
     width: 100%;
 }

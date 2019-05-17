@@ -1,9 +1,9 @@
 $(document).ready(function() {
   svg4everybody({});
-  new ModalCalendarNew().init();
+  new VueCalendar().init();
 });
 
-function ModalCalendarNew() {
+function VueCalendar() {
   this.state = {
     calendarFilled: false,
     firstInit: true,
@@ -18,9 +18,8 @@ function ModalCalendarNew() {
   };
   this.vue = {};
 
-  (this.$el = {
+  this.$el = {
     onPage: {
-      // dialogTrigger: $('.sibShowCalendar'),
       quantityControl: null
     },
 
@@ -31,21 +30,17 @@ function ModalCalendarNew() {
     infobox: null,
     enterbox: null,
     enterboxForm: null,
-    // enterboxTitle: null,
     enterboxInput: null,
-    boxClose: null,
     productCollapse: null,
     resetBtn: null,
-    saveBtn: null,
-    bottomInfo: null
-  }),
-    $(".wide-box").addClass("wide-box-new "); // изолируем стили
+    saveBtn: null
+  };
 
-  const ModalCalendarNew = this;
+  const VueCalendar = this;
 
   // Создаем массив товаров из тайл апплета
   this._makeVue = function() {
-    const ModalCalendarNew = this;
+    const VueCalendar = this;
 
     this.vue = new Vue({
       el: "#productCollapse",
@@ -240,7 +235,6 @@ function ModalCalendarNew() {
           }
 
           tileSet.forEach(function(tile) {
-            let calDataAllParse = calDataAll !== "" ? calDataAll : {};
             productList[tile["Id"]] = {
               name: tile["Product Class Display"],
               totalCount: {
@@ -249,8 +243,8 @@ function ModalCalendarNew() {
                 remaining: 0
               },
               filledDates:
-                tile["Id"] in calDataAllParse
-                  ? calDataAllParse[tile["Id"]].filledDates
+                tile["Id"] in calDataAll
+                  ? calDataAll[tile["Id"]].filledDates
                   : {}
             };
           });
@@ -266,21 +260,19 @@ function ModalCalendarNew() {
             const haveToFill = productList[product].totalCount.haveToFill;
             const filled = getFilled;
             const remaining = haveToFill - filled;
-            // console.log(haveToFill);
             const totalCount = {
               haveToFill: haveToFill,
               filled: filled,
               remaining: Math.round(remaining * 1000) / 1000 // Task-389 Неверный расчет остатка при вводе дробного кол-ва продукта на отгрузку  290319
             };
             productList[product].totalCount = totalCount;
-            // console.log('load', productList[product].filledDates);
           });
 
           return productList;
         },
         renderDatapicker: function() {
-          ModalCalendarNew.$el.datepicker.data("datepicker").clear();
-          return ModalCalendarNew.initDatepicker();
+          VueCalendar.$el.datepicker.data("datepicker").clear();
+          return VueCalendar.initDatepicker();
         },
 
         saveData: function(selectedDate, value) {
@@ -296,23 +288,8 @@ function ModalCalendarNew() {
           /**
            * Брать ID товара и сравнивать с ID Quote Item, записывать в CalendarData
            */
-          //   Object.keys(this.products).forEach(function(prodKey, i) {
-          //     const prod = that.products[prodKey];
-          //     // if (that.products[that.selectedProduct] == prod) {
-          //     //   prod.filledDates = {
-          //     //     [selectedDate]: value
-          //     //   };
-          //     // }
-
-          //     localStorage.calDataAll = JSON.stringify(that.products);
-          //     console.log(localStorage);
-          //     // console.log(prod);
-          //   });
-
-          //   $(window).scrollTop(tempScrollTop);
 
           localStorage.calDataAll = JSON.stringify(that.products);
-          //   console.log(localStorage);
         }
       }
     });
@@ -338,7 +315,6 @@ function ModalCalendarNew() {
     );
 
     if (!this.$el.enterboxInput[0].validity.valid) {
-      // $(event.target).focus()
       return;
     }
 
@@ -355,7 +331,6 @@ function ModalCalendarNew() {
 
     let value = this.fixNumber(this.$el.enterboxInput.val());
 
-    // console.log(value);
     this.vue.onChange(dateUSAFormat, value);
 
     const quantity = value > 0 ? this.fixNumber(value) + " т." : ""; // Task-287 calendar translations TAUSHEVA 12.12.18
@@ -524,16 +499,17 @@ function ModalCalendarNew() {
         quantity = inFilledDates ? this.fixNumber(inFilledDates) + " т." : ""; // Task-287 calendar translations TAUSHEVA 12.12.18
         carlabel = inFilledDates ? "carlabel " : ""; // иконка машинки
 
-        carlabelOther = inFilledDatesAll ? "carlabel-other " : ""; // иконка машинки для других дат
+        carlabelOther = inFilledDatesAll ? "carlabel-other " : "ddd"; // иконка машинки для других дат
 
         const that = this;
+
         setTimeout(function() {
           $(".carlabel-other", that.$el.calendar)
-            .addClass("tooltip")
+            .addClass("tooltip-car")
             .parent()
             .addClass("-filled-other-");
           $(".carlabel", that.$el.calendar)
-            .removeClass("carlabel-other tooltip")
+            .removeClass("carlabel-other tooltip-car")
             .parent()
             .addClass("-filled-");
         });
@@ -548,7 +524,7 @@ function ModalCalendarNew() {
           '<p class="carempty ' +
           carlabel +
           carlabelOther +
-          ' " data-tooltip="В этот день запланированы другие отгрузки"></p>'
+          ' " data-tooltip-car="В этот день запланированы другие отгрузки"></p>'
       };
     }
   };
